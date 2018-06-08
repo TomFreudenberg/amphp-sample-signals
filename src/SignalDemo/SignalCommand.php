@@ -39,14 +39,13 @@ class SignalCommand extends Command {
             Loop::unreference(
               Loop::onSignal($signal,
                 function () use ($signal, &$pool) {
-                  echo "\nCaught SIGNAL [" . $signal . "]! normally this job should now continue ...\n";
-                  return null;
+                  echo "\nCaught SIGNAL [" . $signal . "]! Gracefully shutdown after running jobs...\n";
+                  return $pool->shutdown();
                 }
               )
             );
           }
 
-          return $pool->shutdown();
         });
 
       }
